@@ -101,5 +101,45 @@ namespace FestivalManagerTests
                 Assert.AreEqual(e.Message, "You can only add songs that are longer than 1 minute.");
             }
         }
+        [TestMethod]
+        public void TestMethod8()
+        {
+            Stage s1 = new Stage();
+            try {
+                s1.AddSongToPerformer("czarne oczy", "ssd");
+                Assert.Fail();
+            }catch(ArgumentException e)
+            {
+                Assert.AreEqual(e.Message, "There is no performer with this name.");
+            }
+        }
+        [TestMethod]
+        public void TestMethod9()
+        {
+            Stage s1 = new Stage();
+            Performer p1 = new Performer("Adrian", "Rora", 20);
+            s1.AddPerformer(p1);
+            try
+            {
+                s1.AddSongToPerformer("ffd", "Adrian Rora");
+                Assert.Fail();
+            }
+            catch (ArgumentException e)
+            {
+                Assert.AreEqual("There is no song with this name.", e.Message);
+            }
+        }
+        [TestMethod]
+        public void TestMethod10()
+        {
+            Stage s1 = new Stage();
+            TimeSpan t1 = new TimeSpan(0, 3, 21);
+            Song song1 = new Song("czarne oczy", t1);
+            Performer p1 = new Performer("Adrian", "Rora", 20);
+            s1.AddPerformer(p1);
+            s1.AddSong(song1);
+            Assert.AreEqual("czarne oczy (03:21) will be performed by Adrian Rora", s1.AddSongToPerformer("czarne oczy", "Adrian Rora"));
+
+        }
     }
 }
